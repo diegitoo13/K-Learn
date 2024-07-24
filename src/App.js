@@ -17,7 +17,7 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
+    <Router basename="/">
       <Routes>
         <Route path="/" element={<Navigate to="/learn" />} />
         <Route path="/learn" element={<MainMenu questions={questions} />} />
