@@ -1,30 +1,45 @@
-import React, { useState, useEffect } from 'react';
-
-const shuffleArray = (array) => {
-  let shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-};
+import React, { useState } from 'react';
+import axios from 'axios';
+import Modal from './Modal';
 
 const Question = ({ question, options = [], correctAnswer, onAnswer, isLastQuestion }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const [shuffledOptions, setShuffledOptions] = useState([]);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [explanation, setExplanation] = useState('');
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    setShuffledOptions(shuffleArray(options));
-  }, [options]);
+  const fetchExplanation = async () => {
+    try {
+      const apiKey = localStorage.getItem('openaiApiKey');
+      if (!apiKey) throw new Error('API key not found');
+      
+      console.log('API Key:', apiKey);  // Debugging: Check API Key
+      
+      const prompt = `Question: ${question}\nOptions: ${options.join(', ')}\nCorrect Answer: ${correctAnswer}\nExplain why the correct answer is correct and why the other options are incorrect.`;
+      console.log('Prompt:', prompt);  // Debugging: Check Prompt
 
-  if (!question || !Array.isArray(options) || options.length === 0 || !correctAnswer) {
-    return (
-      <div className="text-center text-red-500">
-        Error: Invalid question data.
-      </div>
-    );
-  }
+      const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'system', content: 'You are an assistant that explains quiz answers.' }, { role: 'user', content: prompt }],
+        max_tokens: 150,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+      });
+
+      console.log('API Response:', response);  // Debugging: Check Response
+
+      setExplanation(response.data.choices[0].message.content);
+      setError('');
+    } catch (err) {
+      console.error('Error fetching explanation:', err);
+      setError('Error fetching explanation. Please try again later.');
+      setExplanation('');
+    }
+  };
 
   const handleCheckAnswer = () => {
     setSubmitted(true);
@@ -34,12 +49,15 @@ const Question = ({ question, options = [], correctAnswer, onAnswer, isLastQuest
     onAnswer(selectedOption === correctAnswer);
     setSubmitted(false);
     setSelectedOption(null);
+    setShowExplanation(false);
+    setExplanation('');
+    setError('');
   };
 
   return (
     <div>
       <h2 className="font-sans font-semibold text-[17.5px] mb-6">{question}</h2>
-      {shuffledOptions.map((option, index) => (
+      {options.map((option, index) => (
         <div key={index} className="mb-4">
           <button
             onClick={() => setSelectedOption(option)}
@@ -61,12 +79,25 @@ const Question = ({ question, options = [], correctAnswer, onAnswer, isLastQuest
         </div>
       ))}
       {submitted ? (
-        <button
-          onClick={handleNextQuestion}
-          className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
-        >
-          {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
-        </button>
+        <div>
+          <button
+            onClick={handleNextQuestion}
+            className="mt-6 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+          >
+            {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
+          </button>
+          {!showExplanation && (
+            <button
+              onClick={() => {
+                setShowExplanation(true);
+                fetchExplanation();
+              }}
+              className="mt-2 ml-4 px-4 py-2 text-blue-500"
+            >
+              See Explanation
+            </button>
+          )}
+        </div>
       ) : (
         <button
           onClick={handleCheckAnswer}
@@ -76,6 +107,20 @@ const Question = ({ question, options = [], correctAnswer, onAnswer, isLastQuest
           Check Answer
         </button>
       )}
+
+      <Modal isOpen={showExplanation} onClose={() => setShowExplanation(false)}>
+        {error ? (
+          <p className="text-red-500">{error}</p>
+        ) : (
+          <p>{explanation}</p>
+        )}
+        <button
+          onClick={() => setShowExplanation(false)}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+        >
+          Close
+        </button>
+      </Modal>
     </div>
   );
 };

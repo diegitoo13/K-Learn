@@ -17,17 +17,18 @@ const MainMenu = ({ questions }) => {
 
     if (questions.length > 0 && questions.every((q) => q.completed)) {
       setAllCompleted(true);
+    } else if (questions.length === 0) {
+      navigate('/get-started');
     }
-  }, []);
+  }, [questions, navigate]);
 
   const resetProcess = () => {
     window.localStorage.removeItem('learnProgress');
-    navigate('/learn/get-started');
   };
 
   const startOver = () => {
     window.localStorage.clear();
-    navigate('/learn/get-started');
+    navigate('/get-started');
   };
 
   return (
@@ -40,7 +41,7 @@ const MainMenu = ({ questions }) => {
         </p>
         <div className="flex flex-col space-y-4">
           <button
-            onClick={() => navigate('/learn/quiz')}
+            onClick={() => navigate('/quiz')}
             className={`w-full py-3 px-6 rounded-full font-semibold transition duration-300 ${
               hasQuestions && !allCompleted ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
@@ -49,7 +50,7 @@ const MainMenu = ({ questions }) => {
             Learn
           </button>
           <button
-            onClick={() => navigate('/learn/missed-questions')}
+            onClick={() => navigate('/missed-questions')}
             className={`w-full py-3 px-6 rounded-full font-semibold transition duration-300 ${
               hasMissedQuestions ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}

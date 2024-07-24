@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveState } from '../utils/localStorage';
 import Header from '../components/Header';
@@ -32,7 +32,9 @@ const demoQuestions = [
   }
 ];
 
+
 const GetStarted = ({ setQuestions }) => {
+  const [apiKey, setApiKey] = useState('');
   const navigate = useNavigate();
 
   const handleFileUpload = (event) => {
@@ -55,6 +57,13 @@ const GetStarted = ({ setQuestions }) => {
     navigate('/learn');
   };
 
+  const handleSaveApiKey = () => {
+    if (apiKey) {
+      localStorage.setItem('openaiApiKey', apiKey);
+      alert('API Key saved successfully!');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#1f3545] flex flex-col items-center justify-center">
       <Header title="K! Learn" />
@@ -73,6 +82,19 @@ const GetStarted = ({ setQuestions }) => {
             <input type="file" accept="application/json" onChange={handleFileUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
             <span>Upload Custom Questions</span>
           </label>
+          <input
+            type="text"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Enter OpenAI API Key (optional)"
+            className="w-full py-3 px-6 border rounded-full focus:outline-none"
+          />
+          <button 
+            onClick={handleSaveApiKey}
+            className="w-full py-3 px-6 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 transition duration-300"
+          >
+            Save API Key
+          </button>
         </div>
       </div>
     </div>

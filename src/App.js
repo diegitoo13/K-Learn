@@ -17,13 +17,13 @@ const App = () => {
   }, []);
 
   return (
-    <Router basename="/">
+    <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/learn" />} />
-        <Route path="/learn" element={<MainMenu questions={questions} />} />
-        <Route path="/learn/get-started" element={<GetStarted setQuestions={setQuestions} />} />
-        <Route path="/learn/quiz" element={<Learn questions={questions} setQuestions={setQuestions} />} />
-        <Route path="/learn/missed-questions" element={<MissedQuestions questions={questions} setQuestions={setQuestions} />} />
+        <Route path="/" element={<MainMenu questions={questions} />} />
+        <Route path="/get-started" element={<GetStarted setQuestions={setQuestions} />} />
+        <Route path="/quiz" element={<Learn questions={questions} setQuestions={setQuestions} />} />
+        <Route path="/missed-questions" element={<MissedQuestions questions={questions} setQuestions={setQuestions} />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
