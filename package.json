@@ -2,7 +2,7 @@
   "name": "kazza-learn",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://diegitoo13.github.io/learn",
+ "homepage": "https://learn.kazza.jp",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
