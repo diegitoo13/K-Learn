@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/learn/static/css/main.de648082.css",
+    "main.js": "/learn/static/js/main.a0e17f8f.js",
+    "static/js/453.aba77ff3.chunk.js": "/learn/static/js/453.aba77ff3.chunk.js",
+    "static/media/waifu.webp": "/learn/static/media/waifu.856bc73c2e5c90de6de7.webp",
+    "index.html": "/learn/index.html",
+    "main.de648082.css.map": "/learn/static/css/main.de648082.css.map",
+    "main.a0e17f8f.js.map": "/learn/static/js/main.a0e17f8f.js.map",
+    "453.aba77ff3.chunk.js.map": "/learn/static/js/453.aba77ff3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.de648082.css",
+    "static/js/main.a0e17f8f.js"
+  ]
+}
