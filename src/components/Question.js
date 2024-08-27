@@ -1,33 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 
-const Question = ({ question, options = [], correctAnswer, onAnswer, isLastQuestion }) => {
+const Question = ({ question = '', options = [], correctAnswer = '', explanation = '', onAnswer, isLastQuestion }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [fontSize, setFontSize] = useState('text-[17.5px]');
 
   useEffect(() => {
-    // Dynamically adjust font size based on the length of the question
-    if (question.length > 100) {
-      setFontSize('text-[15px]');
-    } else if (question.length > 200) {
-      setFontSize('text-[13px]');
+    if (question) {
+
+      // Dynamically adjust font size based on the length of the question
+      if (question.length > 100) {
+        setFontSize('text-[15px]');
+      } else if (question.length > 200) {
+        setFontSize('text-[13px]');
+      } else {
+        setFontSize('text-[17.5px]');
+      }
     } else {
-      setFontSize('text-[17.5px]');
+      console.error("Question text is missing or invalid.");
     }
-  }, [question]);
+  }, [question, explanation]);
 
   const handleCheckAnswer = () => {
+    console.log("Checking Answer:", selectedOption);
     setSubmitted(true);
   };
 
   const handleNextQuestion = () => {
-    onAnswer(selectedOption === correctAnswer);
+    console.log("Next Question:", selectedOption === correctAnswer);
+    if (onAnswer) {
+      onAnswer(selectedOption === correctAnswer);
+    }
     setSubmitted(false);
     setSelectedOption(null);
     setShowExplanation(false);
   };
+
+  if (!question) {
+    return <div>Error: Question text is missing or invalid.</div>;
+  }
 
   return (
     <div>
@@ -61,7 +74,7 @@ const Question = ({ question, options = [], correctAnswer, onAnswer, isLastQuest
           >
             {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
           </button>
-          {question.explanation ? (
+          {explanation ? (
             <button
               onClick={() => setShowExplanation(true)}
               className="mt-2 ml-4 px-4 py-2 text-blue-500"
@@ -88,7 +101,7 @@ const Question = ({ question, options = [], correctAnswer, onAnswer, isLastQuest
       )}
 
       <Modal isOpen={showExplanation} onClose={() => setShowExplanation(false)}>
-        <p>{question.explanation}</p>
+        <p>{explanation}</p>
         <button
           onClick={() => setShowExplanation(false)}
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
