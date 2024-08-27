@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveState } from '../utils/localStorage';
 import Header from '../components/Header';
@@ -9,32 +9,35 @@ const demoQuestions = [
     question: 'What is the capital of France?',
     options: ['Berlin', 'Madrid', 'Paris', 'Lisbon'],
     correctAnswer: 'Paris',
+    explanation: 'Paris is the capital city of France, known for its culture, history, and landmarks like the Eiffel Tower.',
   },
   {
     question: 'What is 2 + 2?',
     options: ['3', '4', '5', '6'],
     correctAnswer: '4',
+    explanation: '2 + 2 equals 4 because adding two pairs gives a total of four.',
   },
   {
     question: 'Who wrote "To Kill a Mockingbird"?',
     options: ['Harper Lee', 'J.K. Rowling', 'Ernest Hemingway', 'Mark Twain'],
     correctAnswer: 'Harper Lee',
+    explanation: '"To Kill a Mockingbird" was written by Harper Lee, a novel about racial injustice in the Deep South.',
   },
   {
     question: 'What is the largest planet in our solar system?',
     options: ['Earth', 'Mars', 'Jupiter', 'Saturn'],
     correctAnswer: 'Jupiter',
+    explanation: 'Jupiter is the largest planet in our solar system, known for its Great Red Spot and many moons.',
   },
   {
     question: 'Which element has the chemical symbol "O"?',
     options: ['Gold', 'Oxygen', 'Osmium', 'Iron'],
     correctAnswer: 'Oxygen',
-  }
+    explanation: 'Oxygen has the chemical symbol "O" and is essential for respiration in most living organisms.',
+  },
 ];
 
-
 const GetStarted = ({ setQuestions }) => {
-  const [apiKey, setApiKey] = useState('');
   const navigate = useNavigate();
 
   const handleFileUpload = (event) => {
@@ -57,13 +60,6 @@ const GetStarted = ({ setQuestions }) => {
     navigate('/learn');
   };
 
-  const handleSaveApiKey = () => {
-    if (apiKey) {
-      localStorage.setItem('openaiApiKey', apiKey);
-      alert('API Key saved successfully!');
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#1f3545] flex flex-col items-center justify-center">
       <Header title="K! Learn" />
@@ -82,19 +78,6 @@ const GetStarted = ({ setQuestions }) => {
             <input type="file" accept="application/json" onChange={handleFileUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
             <span>Upload Custom Questions</span>
           </label>
-          <input
-            type="text"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Enter OpenAI API Key (optional)"
-            className="w-full py-3 px-6 border rounded-full focus:outline-none"
-          />
-          <button 
-            onClick={handleSaveApiKey}
-            className="w-full py-3 px-6 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 transition duration-300"
-          >
-            Save API Key
-          </button>
         </div>
       </div>
     </div>

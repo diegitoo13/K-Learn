@@ -4,6 +4,7 @@ import GetStarted from './pages/GetStarted';
 import Learn from './pages/Learn';
 import MainMenu from './pages/MainMenu';
 import MissedQuestions from './pages/MissedQuestions';
+import CustomMode from './pages/CustomMode';
 import { loadState } from './utils/localStorage';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/get-started" element={<GetStarted setQuestions={setQuestions} />} />
         <Route path="/quiz" element={<Learn questions={questions} setQuestions={setQuestions} />} />
         <Route path="/missed-questions" element={<MissedQuestions questions={questions} setQuestions={setQuestions} />} />
+        <Route path="/custom-mode" element={<CustomMode questions={questions} setQuestions={setQuestions} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

@@ -59,6 +59,12 @@ const MainMenu = ({ questions }) => {
             Missed Questions
           </button>
           <button
+            onClick={() => navigate('/custom-mode')}
+            className="w-full py-3 px-6 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 transition duration-300"
+          >
+            Custom Mode
+          </button>
+          <button
             onClick={resetProcess}
             className="w-full py-3 px-6 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition duration-300"
           >
