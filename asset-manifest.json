@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.17cf6157.css",
-    "main.js": "/static/js/main.3c94ed5a.js",
+    "main.css": "/static/css/main.ebe5f2b6.css",
+    "main.js": "/static/js/main.5eaedb9d.js",
     "static/media/waifu.webp": "/static/media/waifu.856bc73c2e5c90de6de7.webp",
     "index.html": "/index.html",
-    "main.17cf6157.css.map": "/static/css/main.17cf6157.css.map",
-    "main.3c94ed5a.js.map": "/static/js/main.3c94ed5a.js.map"
+    "main.ebe5f2b6.css.map": "/static/css/main.ebe5f2b6.css.map",
+    "main.5eaedb9d.js.map": "/static/js/main.5eaedb9d.js.map"
   },
   "entrypoints": [
-    "static/css/main.17cf6157.css",
-    "static/js/main.3c94ed5a.js"
+    "static/css/main.ebe5f2b6.css",
+    "static/js/main.5eaedb9d.js"
   ]
 }
